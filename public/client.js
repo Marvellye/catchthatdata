@@ -67,7 +67,7 @@ const sendData = async () => {
 
   console.log('Sending the following data to the server:', data);
 
-  fetch('http://localhost:3000/client-info', {
+  fetch('https://catchthatdata.onrender.com/client-info', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
