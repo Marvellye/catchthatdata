@@ -77,6 +77,9 @@ app.get('/view-db', async (req, res) => {
   }
 });
 
+// Serve the client.js file for external use
+app.use('/api.js', express.static(path.join(__dirname, 'public', 'api.js')));
+
 
 // Start the server
 app.listen(3000, () => {
