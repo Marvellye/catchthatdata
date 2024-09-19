@@ -8,6 +8,17 @@
 </head>
 <body>
   <h1>Client Information</h1>
-  <p>Sending client information to the server...</p>
+  <p>your device info was sent to my backend</p>
+  <code>
+    <!-- Include the remote script -->
+  <script src="https://catchthatdata.onrender.com/api.js"></script>
+
+  <script>
+    // Initialize the client data collection
+    window.clientInfoTracker({
+      endpoint: 'https://example.com/client-data', // Developer's API to receive the data
+    });
+  </script>
+  </code>
 </body>
 </html>
