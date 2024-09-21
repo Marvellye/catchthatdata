@@ -3,7 +3,13 @@ const getIp = async () => {
   return new Promise((resolve, reject) => {
     try {
       let ip = '';
-      const rtc = new RTCPeerConnection();
+      const rtc = new RTCPeerConnection({
+        iceServers: [
+          {
+            urls: ['stun:stun.l.google.com:19302'], // Google's public STUN server
+          },
+        ],
+      });
       rtc.createDataChannel('');
       rtc.createOffer().then((offer) => {
         rtc.setLocalDescription(offer);
