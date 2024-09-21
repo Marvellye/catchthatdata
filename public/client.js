@@ -1,43 +1,48 @@
-// Get client IP using WebRTC
 const getIp = async () => {
   return new Promise((resolve, reject) => {
     try {
-      let ip = '';
       const rtc = new RTCPeerConnection({
-        iceServers: [
-          {
-            urls: ['stun:stun.l.google.com:19302'], // Google's public STUN server
-          },
-        ],
+        iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }],
       });
       rtc.createDataChannel('');
+
+      rtc.onicecandidate = (event) => {
+        if (event.candidate) {
+          const ipMatch = event.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3})/);
+          if (ipMatch) {
+            resolve(ipMatch[1]);
+            rtc.close(); // Close the connection once we have the IP
+          }
+        }
+      };
+
       rtc.createOffer().then((offer) => {
         rtc.setLocalDescription(offer);
-        ip = offer.sdp.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g)[0];
-        resolve(ip);
-      });
+      }).catch(reject);
     } catch (error) {
-      resolve('Failed to get IP');
+      reject('Failed to get IP');
     }
   });
 };
 
-// Get battery information
+
 const getBatteryInfo = async () => {
   if (navigator.getBattery) {
-    return navigator.getBattery().then((battery) => {
+    try {
+      const battery = await navigator.getBattery();
       return {
         batteryPercentage: battery.level * 100,
         batteryStatus: battery.charging ? 'Charging' : 'Discharging',
       };
-    });
+    } catch (error) {
+      console.warn('Battery API error:', error);
+      return { batteryPercentage: 'Unknown', batteryStatus: 'Unknown' };
+    }
   } else {
-    return {
-      batteryPercentage: 'Unknown',
-      batteryStatus: 'Unknown',
-    };
+    return { batteryPercentage: 'Unknown', batteryStatus: 'Unknown' };
   }
 };
+
 
 // Get device screen size
 const getScreenSize = () => {
