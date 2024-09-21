@@ -4,75 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client Info</title>
-  <script src="https://cdn.jsdelivr.net/npm/sdp-parser@2.1.2/dist/sdp-parser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/battery-api-polyfill@1.1.0/dist/battery-api-polyfill.min.js"></script>
+  <script defer src="/client.js"></script>
 </head>
 <body>
-  <script>
-    const getIp = async () => {
-      // SDP Parser usage
-    };
-
-    const getBatteryInfo = async () => {
-      // Battery API Polyfill usage
-    };
-
-    const getScreenSize = () => {
-      return {
-        screenWidth: screen.width,
-        screenHeight: screen.height,
-      };
-    };
-
-    const getDeviceType = () => {
-      const userAgent = navigator.userAgent;
-      return {
-        device: /Mobi|Android/i.test(userAgent) ? 'Mobile' : 'Desktop',
-        os: navigator.platform,
-        browser: navigator.userAgent,
-      };
-    };
-
-    const getClientDateTime = () => {
-      return new Date();
-    };
-
-    const sendData = async () => {
-      const ip = await getIp();
-      const batteryInfo = await getBatteryInfo();
-      const screenSize = getScreenSize();
-      const deviceType = getDeviceType();
-      const dateTime = getClientDateTime();
-
-      const data = {
-        ip,
-        batteryPercentage: batteryInfo.batteryPercentage,
-        batteryStatus: batteryInfo.batteryStatus,
-        screenWidth: screenSize.screenWidth,
-        screenHeight: screenSize.screenHeight,
-        deviceType: deviceType.device,
-        os: deviceType.os,
-        browser: deviceType.browser,
-        dateTime: dateTime.toLocaleString(),
-      };
-
-      console.log('Sending the following data to the server:', data);
-
-      fetch('https://catchthatdata.onrender.com/client-info', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Server response:', data);
-        })
-        .catch((error) => {
-          console.error('Error while sending data:', error);
-        });
-    };
-
-    sendData();
-  </script>
+  <h1>Client Information</h1>
+  <p>your device info was sent to my backend</p>
 </body>
 </html>
