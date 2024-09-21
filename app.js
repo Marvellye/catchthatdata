@@ -1,7 +1,12 @@
 const express = require('express');
+const cors = require('cors'); // Import CORS
 const path = require('path');
 const fs = require('fs-extra'); // For handling JSON files
+
 const app = express();
+
+// Enable CORS
+app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -80,8 +85,7 @@ app.get('/view-db', async (req, res) => {
 // Serve the client.js file for external use
 app.use('/api.js', express.static(path.join(__dirname, 'public', 'api.js')));
 
-
 // Start the server
 app.listen(3000, () => {
-  console.log('Server listening on https://catchthatdata.onrender.com');
+  console.log('Server listening on http://localhost:3000');
 });
