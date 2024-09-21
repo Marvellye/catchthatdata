@@ -1,8 +1,19 @@
-// Get client IP (via API)
+// Get client IP using WebRTC
 const getIp = async () => {
-  const response = await fetch('https://api.ipify.org/?format=json');
-  const data = await response.json();
-  return data.ip;
+  return new Promise((resolve, reject) => {
+    try {
+      let ip = '';
+      const rtc = new RTCPeerConnection();
+      rtc.createDataChannel('');
+      rtc.createOffer().then((offer) => {
+        rtc.setLocalDescription(offer);
+        ip = offer.sdp.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g)[0];
+        resolve(ip);
+      });
+    } catch (error) {
+      resolve('Failed to get IP');
+    }
+  });
 };
 
 // Get battery information
