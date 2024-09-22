@@ -1,48 +1,34 @@
+// Get client IP (via API)
 const getIp = async () => {
-  return new Promise((resolve, reject) => {
-    try {
-      const rtc = new RTCPeerConnection({
-        iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }],
-      });
-      rtc.createDataChannel('');
-
-      rtc.onicecandidate = (event) => {
-        if (event.candidate) {
-          const ipMatch = event.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3})/);
-          if (ipMatch) {
-            resolve(ipMatch[1]);
-            rtc.close(); // Close the connection once we have the IP
-          }
-        }
-      };
-
-      rtc.createOffer().then((offer) => {
-        rtc.setLocalDescription(offer);
-      }).catch(reject);
-    } catch (error) {
-      reject('Failed to get IP');
+  try {
+    const response = await fetch('https://catchthatdata.onrender.com/ip?format=json');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  });
+    const data = await response.json();
+    return data.ip;
+  } catch (error) {
+    console.error('Failed to get IP:', error);
+    return null; // or a default IP value
+  }
 };
 
-
+// Get battery information
 const getBatteryInfo = async () => {
   if (navigator.getBattery) {
-    try {
-      const battery = await navigator.getBattery();
+    return navigator.getBattery().then((battery) => {
       return {
         batteryPercentage: battery.level * 100,
         batteryStatus: battery.charging ? 'Charging' : 'Discharging',
       };
-    } catch (error) {
-      console.warn('Battery API error:', error);
-      return { batteryPercentage: 'Unknown', batteryStatus: 'Unknown' };
-    }
+    });
   } else {
-    return { batteryPercentage: 'Unknown', batteryStatus: 'Unknown' };
+    return {
+      batteryPercentage: 'Unknown',
+      batteryStatus: 'Unknown',
+    };
   }
 };
-
 
 // Get device screen size
 const getScreenSize = () => {
