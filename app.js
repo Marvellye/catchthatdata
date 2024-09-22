@@ -82,6 +82,22 @@ app.get('/view-db', async (req, res) => {
   }
 });
 
+// Route to Grab IP
+app.get('/ip', (req, res) => {
+    // Get client IP address
+    const ipList = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const mainIp = ipList.split(',')[0].trim();
+
+    // Check for format query parameter
+    const format = req.query.format;
+
+    if (format === 'json') {
+        res.json({ ip: mainIp });
+    } else {
+        res.send(mainIp);
+    }
+});
+
 // Serve the client.js file for external use
 app.use('/api.js', express.static(path.join(__dirname, 'public', 'api.js')));
 
