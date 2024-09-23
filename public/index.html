@@ -113,6 +113,53 @@
          margin-left: 25px;
          }
       </style>
+      <style>
+        .skeleton-loader {
+            background-color: #fff;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skeleton-loader::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .skeleton-line {
+            height: 20px;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .skeleton-line.short {
+            width: 40%;
+        }
+
+        .skeleton-line.medium {
+            width: 60%;
+        }
+
+        .skeleton-line.long {
+            width: 100%;
+        }
+    </style>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
    </head>
    <body>
@@ -129,9 +176,13 @@
                include it in the head tag of your code and see the magic. <br /> Oh yes! I have your location as well :)
             </p>
             <div class="app-box install mb-3">
-               <h3>Your Info</h3>
                <div id="response" class="data-box">
-                  Loading...
+                                  <div class="skeleton-loader p-4">
+                    <div class="skeleton-line long"></div>
+                    <div class="skeleton-line medium"></div>
+                    <div class="skeleton-line short"></div>
+                    <div class="skeleton-line long"></div>
+                </div>
                </div>
             </div>
             <div class="keywords d-flex flex-wrap gap-2 mb-3">
@@ -158,7 +209,7 @@
                <i class="comments">&lt;!-- Include the remote script --&gt; </i>
                <br/>
                <br/>
-               &lt;script src="https://catchthatdata.onrender.com/api.js"&gt;&lt;/script&gt;
+               &lt;script src="https://api.marvelly.com.ng/catchthatdata/app.min.js"&gt;&lt;/script&gt;
                <br/>
                </code>
                <br />
@@ -179,11 +230,13 @@
                &lt;/script&gt;
                </code>
             </div>
+            <button class="btn get w-100" onclick="getVideoo()">‹ Go Back</button>
          </div>
          <div id="circle"></div>
+         <div id="circle2"></div>
       </main>
       <footer class="footer text-center py-3">
-         <p>&copy; 2024 Catch That Data</p>
+         <p>&copy; 2024 CatchThatData - 100daysofMiva <br/> Marvelly</p>
       </footer>
       <script>
          function getVideo() {
@@ -204,6 +257,29 @@
                  easing: 'easeInOutQuad',
                  complete: function () {
                    document.getElementById('circle').style.display = 'none';
+                 }
+               });
+             }
+           });
+         };
+         function getVideoo() {
+           anime({
+             targets: '#circle2',
+             width: ['10px', '3000px'],
+             height: ['10px', '3000px'],
+             duration: 500,
+             easing: 'easeInOutQuad',
+             complete: function () {
+               document.getElementById('app2').style.display = 'none';
+               document.getElementById('app').style.display = 'block';
+               anime({
+                 targets: '#circle2',
+                 width: ['3000px', '10px'],
+                 height: ['3000px', '10px'],
+                 duration: 500,
+                 easing: 'easeInOutQuad',
+                 complete: function () {
+                   document.getElementById('circle2').style.display = 'none';
                  }
                });
              }
@@ -296,11 +372,11 @@
                  .then((responseData) => {
                      console.log('Server response:', responseData);
                      // Optionally update DOM with server response message
-                     const responseDiv = document.getElementById('response');
-                     responseDiv.innerHTML += `
+                    /*const responseDiv = document.getElementById('response');
+                    responseDiv.innerHTML += `
                          <h4>Response from Server:</h4>
                          <p>${responseData.message}</p>
-                     `;
+                     `;*/
                  })
                  .catch((error) => {
                      console.error('Error while sending data:', error);
