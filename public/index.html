@@ -113,53 +113,7 @@
          margin-left: 25px;
          }
       </style>
-      <style>
-        .skeleton-loader {
-            background-color: #fff;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-        }
 
-        .skeleton-loader::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        .skeleton-line {
-            height: 20px;
-            margin-bottom: 10px;
-            background-color: rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-        }
-
-        .skeleton-line.short {
-            width: 40%;
-        }
-
-        .skeleton-line.medium {
-            width: 60%;
-        }
-
-        .skeleton-line.long {
-            width: 100%;
-        }
-    </style>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
    </head>
    <body>
@@ -177,12 +131,7 @@
             </p>
             <div class="app-box install mb-3">
                <div id="response" class="data-box">
-                                  <div class="skeleton-loader p-4">
-                    <div class="skeleton-line long"></div>
-                    <div class="skeleton-line medium"></div>
-                    <div class="skeleton-line short"></div>
-                    <div class="skeleton-line long"></div>
-                </div>
+                 Loading...
                </div>
             </div>
             <div class="keywords d-flex flex-wrap gap-2 mb-3">
